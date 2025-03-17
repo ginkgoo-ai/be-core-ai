@@ -1,0 +1,26 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${AUTH_SERVER}/oauth2/jwks
+          issuer-uri: ${AUTH_SERVER}
+  ai:
+    mcp:
+      client:
+        enabled: true
+        name: mcp-client
+        version: 1.0.0
+        request-timeout: ${MCP_REQUEST_TIMEOUT}
+        type: SYNC
+        sse:
+          connections:
+            server1:
+              url: ${MCP_SERVER}
+    openai:
+      api-key: ${OPEN_AI_API_KEY}
+      base-url: ${OPEN_AI_BASE_URL}
+
