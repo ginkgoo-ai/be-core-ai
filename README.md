@@ -1,29 +1,16 @@
-# Ginkgoo Core Identity Service
+# Ginkgoo Core AI Service
 
 ## Features
 
 ### Completed ✅
 
-* OAuth 2.0 Implementation
-  * Support SPA with PKCE
-  * OAuth Consent
-  * JWT with Management
-  * OIDC
-  * OAuth Client Reistration Endpoint
-  * Client Registration Endpoint
-* Form Login
-* Self-Registration
-* Password Recovery
-* Multi-Factor Authentication (Email)
+* AI Management
 
 ### In Progress 🚧
 
-* Additional Social Login Integration
-* Multi-Factor Authentication (SMS)
-
 ## Tech Stack
 
-* Java 21
+* Java 23
 * Spring Boot 3.x
 * Spring Security & Spring Authentication Server
 * PostgreSQL
@@ -33,7 +20,7 @@
 
 ```bash
 git clone <repository-url>
-cd ginkgoo-identity
+cd ginkgoo-ai
 mvn clean install
 mvn spring-boot:run
 ```
