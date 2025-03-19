@@ -24,3 +24,10 @@ spring:
       api-key: ${OPEN_AI_API_KEY}
       base-url: ${OPEN_AI_BASE_URL}
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/ai/v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /api/ai/swagger-ui.html
