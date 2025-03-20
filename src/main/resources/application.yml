@@ -31,3 +31,17 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /api/ai/swagger-ui.html
+
+management:
+  tracing:
+    enabled : true
+    sampling:
+      probability: 1.0
+  endpoints:
+    web:
+      base-path: ""
+      path-mapping:
+        health: health
+  health:
+    ldap:
+      enabled: false
