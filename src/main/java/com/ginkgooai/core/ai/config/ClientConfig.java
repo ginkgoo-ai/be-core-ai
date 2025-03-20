@@ -20,7 +20,7 @@ public class ClientConfig {
     public ChatClient init(OpenAiChatModel chatModel,SyncMcpToolCallbackProvider syncMcpToolCallbackProvider){
 
         return ChatClient.builder(chatModel)
-                .defaultSystem(PromptTemplate.SYSTEM)
+                .defaultSystem(PromptTemplate.SYSTEM + PromptTemplate.SYSTEM_PROJECT)
                 .defaultAdvisors(List.of(
                         new MessageChatMemoryAdvisor(new InMemoryChatMemory()), // CHAT MEMORY
                         new SimpleLoggerAdvisor()))
