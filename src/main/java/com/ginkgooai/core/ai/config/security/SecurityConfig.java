@@ -1,4 +1,4 @@
-package com.ginkgooai.core.ai.config;
+package com.ginkgooai.core.ai.config.security;
 
 import com.ginkgooai.core.ai.client.identity.dto.UserInfo;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/ai/v3/api-docs/**",
                                 "/api/ai/swagger-ui/**",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/v1/email"
                         ).permitAll()
                         .requestMatchers(
                                 "/health"

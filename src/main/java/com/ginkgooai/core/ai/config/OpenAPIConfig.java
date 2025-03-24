@@ -25,6 +25,11 @@ public class OpenAPIConfig {
 
     private static final String COOKIE_AUTH_NAME = "cookieAuth";
 
+    /**
+     * Configures and customizes the OpenAPI documentation
+     * 
+     * @return Configured OpenAPI instance with security and server information
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

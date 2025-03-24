@@ -1,3 +1,5 @@
+core-identity-uri: ${SERVICE_SCHEME}://${CORE_IDENTITY_HOST}:${CORE_IDENTITY_PORT}
+
 server:
   port: ${SERVER_PORT:8080}
 
@@ -24,6 +26,12 @@ spring:
       api-key: ${OPEN_AI_API_KEY}
       base-url: ${OPEN_AI_BASE_URL}
 
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
 springdoc:
   api-docs:
     enabled: true
@@ -45,3 +53,9 @@ management:
   health:
     ldap:
       enabled: false
+
+thread:
+  pool:
+    core-size: 5
+    max-size: 20
+    queue-capacity: 100

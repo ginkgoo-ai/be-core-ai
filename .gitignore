@@ -28,6 +28,7 @@ dependency-reduced-pom.xml
 
 .gitignore
 .env
+*.vscode
 *.iml
 *.ipr
 *.iws

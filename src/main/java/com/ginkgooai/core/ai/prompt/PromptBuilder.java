@@ -32,13 +32,24 @@ public class PromptBuilder {
         String value;
     }
     
+    /**
+     * Creates a JSON representation of the prompt with user input and assistant parameters
+     * 
+     * @param userInputText The text input from the user
+     * @return JSON string containing the prompt structure
+     * @throws JsonProcessingException if an error occurs during JSON processing
+     */
     public static String create(String userInputText) throws JsonProcessingException {
-
         return JsonUtils.toJson(PromptBuilder.builder()
                 .userInputText(userInputText)
                 .assistantParams(initAssistantParams()).build());
     }
 
+    /**
+     * Initializes the assistant parameters with authentication token and workspace ID
+     * 
+     * @return List of assistant parameters
+     */
     private static List<AssistantParams> initAssistantParams() {
         ServletRequestAttributes attributes = (ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes();

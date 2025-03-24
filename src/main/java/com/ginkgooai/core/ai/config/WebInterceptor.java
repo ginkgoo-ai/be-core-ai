@@ -8,11 +8,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebInterceptor implements WebMvcConfigurer {
 
-
+    /**
+     * Adds interceptors to the application request processing pipeline
+     * 
+     * @param registry The interceptor registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ContextsInterceptor()).addPathPatterns("/**");
     }
-
 
 }
