@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,6 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class PromptBuilder {
     
     private String userInputText;
@@ -54,14 +56,16 @@ public class PromptBuilder {
         ServletRequestAttributes attributes = (ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes();
 
-       return Arrays.asList(
+        log.info("attributes:{}, workspace_id: {}", attributes.getRequest()
+                .getHeader(HttpHeaders.AUTHORIZATION), ContextUtils.getWorkspaceId());
+        return Arrays.asList(
                AssistantParams.builder()
                        .key(PromptTemplate.TOKEN)
                        .value(attributes.getRequest()
                        .getHeader(HttpHeaders.AUTHORIZATION)).build(),
                AssistantParams.builder()
                        .key(PromptTemplate.WORKSPACE_ID)
-                       .value(ContextUtils.get().getWorkspaceId()).build()
+                       .value(ContextUtils.getWorkspaceId()).build()
                );
     }
 }
