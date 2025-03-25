@@ -8,10 +8,7 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,11 +28,14 @@ public class ChatController {
     private String CHAT_MEMORY_RETRIEVE_SIZE_KEY;
 
     @GetMapping
-    String generation(@RequestParam String userInput, @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws JsonProcessingException {
+    String generation(
+                      @RequestHeader(required = false) String workspaceId,
+                      @RequestParam String userInput,
+                      @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws JsonProcessingException {
 
         return client
                 .prompt(
-                        new Prompt(List.of(new UserMessage(PromptBuilder.create(userInput))),
+                        new Prompt(List.of(new UserMessage(PromptBuilder.create(userInput,workspaceId))),
                         OpenAiChatOptions.builder().model(MODEL_NAME).temperature(0.0).build()))
                 .advisors(a -> a
                         .param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)

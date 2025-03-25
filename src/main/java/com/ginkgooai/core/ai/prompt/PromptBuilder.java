@@ -44,7 +44,14 @@ public class PromptBuilder {
     public static String create(String userInputText) throws JsonProcessingException {
         return JsonUtils.toJson(PromptBuilder.builder()
                 .userInputText(userInputText)
-                .assistantParams(initAssistantParams()).build());
+                .assistantParams(initAssistantParams(null)).build());
+    }
+
+
+    public static String create(String userInputText, String workspaceId) throws JsonProcessingException {
+        return JsonUtils.toJson(PromptBuilder.builder()
+                .userInputText(userInputText)
+                .assistantParams(initAssistantParams(workspaceId)).build());
     }
 
     /**
@@ -52,7 +59,7 @@ public class PromptBuilder {
      * 
      * @return List of assistant parameters
      */
-    private static List<AssistantParams> initAssistantParams() {
+    private static List<AssistantParams> initAssistantParams(String workspaceId) throws JsonProcessingException {
         ServletRequestAttributes attributes = (ServletRequestAttributes)
                 RequestContextHolder.getRequestAttributes();
 
@@ -65,7 +72,7 @@ public class PromptBuilder {
                        .getHeader(HttpHeaders.AUTHORIZATION)).build(),
                AssistantParams.builder()
                        .key(PromptTemplate.WORKSPACE_ID)
-                       .value(ContextUtils.getWorkspaceId()).build()
+                       .value(workspaceId == null ? ContextUtils.getWorkspaceId() : workspaceId).build()
                );
     }
 }
