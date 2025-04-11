@@ -38,6 +38,8 @@ spring:
         temperature: 0.0
     mcp:
       client:
+        toolcallback:
+          enabled: true
         enabled: true
         name: mcp-client
         version: 1.0.0
