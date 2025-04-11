@@ -1,8 +1,8 @@
-package com.ginkgooai.core.ai.prompt.chat;
+package com.ginkgooai.core.ai.prompt.project;
 
 import com.ginkgooai.core.ai.prompt.PromptTemplate;
 
-public interface ChatPrompt extends PromptTemplate {
+public interface ProjectPrompt extends PromptTemplate {
 
     String SYSTEM_PROJECT = "# Project Create Role\n" +
             "# Create Project Roles\n" +

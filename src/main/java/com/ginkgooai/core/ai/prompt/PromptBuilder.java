@@ -51,7 +51,7 @@ public class PromptBuilder {
     public static String create(String userInputText, String workspaceId) throws JsonProcessingException {
         return JsonUtils.toJson(PromptBuilder.builder()
                 .userInputText(userInputText)
-                .assistantParams(initAssistantParams(workspaceId)).build());
+                .assistantParams(initAssistantParams(workspaceId)).build()).replace("{", "\\{").replace("}", "\\}");
     }
 
     /**
