@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux;
 import java.util.Map;
 
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class AgentCombination {
 
