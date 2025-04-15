@@ -42,7 +42,11 @@ public class PictureVisionAssistant {
 						您可以通过加州承包人州执照委员会(CSLB)里的执业证分类，分析客户的发来的图片，分析出需要的承包商类型。
 					   请讲中文。
 					   今天的日期是 {current_date}.
-					   如果输出的是包含列表形式的内容，请使用markdown格式输出
+					   如果输出的是包含列表或者表格形式的内容, 请使用markdown格式输出, 要求居中对齐。
+					   居中对齐的示例:
+					   | A | B | C |
+					   |:------:|:----------:|:----------:|
+					   | 1 | 2 | 3 |
 					""")
                 .defaultAdvisors(
                         new MessageChatMemoryAdvisor(new InMemoryChatMemory()), // Chat Memory
