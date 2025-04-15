@@ -1,6 +1,10 @@
 package com.ginkgooai.core.ai.assistant;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ginkgooai.core.ai.prompt.PromptBuilder;
+import com.ginkgooai.core.ai.prompt.PromptTemplate;
+import com.ginkgooai.core.common.utils.ContextUtils;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -19,6 +23,7 @@ import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
@@ -36,18 +41,24 @@ public class PictureVisionAssistant {
 
         // @formatter:off
         this.chatClient = modelBuilder
-                .defaultSystem("""
-						您是“Jasper”加州装修总包公司的客户聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
-						您正在通过在线聊天系统与客户互动。
-						您可以通过加州承包人州执照委员会(CSLB)里的执业证分类，分析客户的发来的图片，分析出需要的承包商类型。
-					   请讲中文。
-					   今天的日期是 {current_date}.
-					   如果输出的是包含列表或者表格形式的内容, 请使用markdown格式输出, 要求居中对齐。
-					   居中对齐的示例:
-					   | A | B | C |
-					   |:------:|:----------:|:----------:|
-					   | 1 | 2 | 3 |
-					""")
+                .defaultSystem("""	
+                         You are a customer chat support agent for "Jasper" California Renovation Master Contractor. Please reply in a friendly, helpful and pleasant manner.
+                            You are interacting with customers through an online chat system.
+                            You can analyze the content of your client's submission to determine the type of contractor you need through the license classification in the California Contractor State Licensing Board (CSLB).
+                            Please speak Chinese.
+                            Today's date is {current_date}.
+                            Example 1:
+                            If the output contains content in the form of a list or table, use the markdown format to output, requiring center alignment.
+                            Example of centering:
+                            | A | B | C |
+                            | : -- -- -- -- -- -- : | : - - - - - - - - - - : | : - - - - - - - - - - : |
+                            | 1 | 2 | 3 |
+                            Example 2:
+                            The user enters: "Address: 425 23rd Ave
+                            Location: Surface, four area, 40 sqft in total
+                            Job description: Apply 40 sqft stucco, including 2 windows l"
+                            Output a Job description of the types of subcontractors required for the material involved. Use a list to show the types of subcontractors
+                         """ + PromptTemplate.SYSTEM)
                 .defaultAdvisors(
                         new MessageChatMemoryAdvisor(new InMemoryChatMemory()), // Chat Memory
                         // logger
@@ -91,11 +102,13 @@ public class PictureVisionAssistant {
     }
 
 
-    public String chatBlock(String chatId, String userMessageContent) {
+    public String chatBlock(String chatId, String userMessageContent) throws JsonProcessingException {
 
-        return this.chatClient.prompt()
-                .system(s -> s.param("current_date", LocalDate.now().toString()))
+        return this.chatClient
+                .prompt()
                 .user(userMessageContent)
+                .system(s -> s.param("current_date", LocalDate.now().toString())
+                        .param("params",PromptBuilder.getAuthorization()).param("workspace_id",ContextUtils.getWorkspaceId()))
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .call()
                 .content();

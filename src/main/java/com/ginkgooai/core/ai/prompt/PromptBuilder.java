@@ -75,4 +75,17 @@ public class PromptBuilder {
                        .value(workspaceId == null ? ContextUtils.getWorkspaceId() : workspaceId).build()
                );
     }
+
+    public static String getAuthorization() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes();
+
+        if (attributes != null) {
+            log.info("attributes:{}, workspace_id: {}", attributes.getRequest()
+                    .getHeader(HttpHeaders.AUTHORIZATION), ContextUtils.getWorkspaceId());
+            return attributes.getRequest()
+                    .getHeader(HttpHeaders.AUTHORIZATION);
+        }
+        return "";
+    }
 }

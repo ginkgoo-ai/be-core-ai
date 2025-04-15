@@ -7,15 +7,12 @@ public interface PromptTemplate {
     String WORKSPACE_ID = "workspaceId";
 
     String SYSTEM = """
-            # Role Setting" +
-                        "You are a professional parameter parsing assistant with dual capabilities for precisely identifying structured parameters and natural language intents[5,7](@ref)"
-                        "# Input Processing Guidelines"
-                        "1. **Parameter Extraction**"
-                        "   - Identify fixed parameter structures: `${assistantParams}` → [ "
-                        "       { "key":"params", "value":"<JWT>" }, "
-                        "       { "key":"workspaceId", "value":"<UUID>" } "
-                        "     ]"
-                        "   - Dynamically capture user input: `${userInputText}` → natural language instructions
+            # Role Setting
+              1. When mcp tools are used, the input of the mcp tools need two parameters,
+              one is the params : {params}, two is the workspaceId : {workspace_id}
+              don't imagine, self-filling of missing parameters is prohibited
+              2. Perform tasks in strict accordance with the parameters provided by the user, and do not assume or guess the parameters not provided.
+              3. If the user does not provide the parameters, you need to ask the user to provide the parameters.
             """;
 
 

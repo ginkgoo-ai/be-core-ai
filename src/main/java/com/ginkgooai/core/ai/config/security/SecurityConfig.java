@@ -31,7 +31,6 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/ai/v3/api-docs/**",
                                 "/api/ai/swagger-ui/**",
-                                "/assistant/**",
                                 "/webjars/**",
                                 "/v1/email"
                         ).permitAll()

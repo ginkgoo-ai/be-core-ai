@@ -36,20 +36,20 @@ public class AssistantController {
 
     @PostMapping("/block")
     String fileBlock(
-            @RequestPart String userInput,
+            @RequestPart String message,
             @RequestPart(required = false) MultipartFile file,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
 
-        return pictureVisionAssistant.chatBlock(chatId, userInput,file);
+        return pictureVisionAssistant.chatBlock(chatId, message,file);
 
     }
 
     @GetMapping("/block")
     String generationBlock(
-            @RequestParam String userInput,
+            @RequestParam String message,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
 
-        return pictureVisionAssistant.chatBlock(chatId, userInput);
+        return pictureVisionAssistant.chatBlock(chatId, message);
 
     }
 }
