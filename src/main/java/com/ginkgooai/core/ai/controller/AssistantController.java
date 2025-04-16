@@ -34,7 +34,7 @@ public class AssistantController {
 
     }
 
-    @GetMapping("/block")
+    @PostMapping("/block")
     String fileBlock(
             @RequestPart String message,
             @RequestPart(required = false) MultipartFile file,
@@ -44,7 +44,7 @@ public class AssistantController {
 
     }
 
-    @PostMapping("/block")
+    @GetMapping("/block")
     String generationBlock(
             @RequestPart String message,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
