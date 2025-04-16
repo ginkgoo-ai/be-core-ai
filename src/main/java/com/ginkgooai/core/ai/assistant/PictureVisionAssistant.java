@@ -53,7 +53,8 @@ public class PictureVisionAssistant {
                             Please speak Chinese.
                             Today's date is {current_date}.
                             When the system encounters problems, prompt user {error_message}.
-                          ##  Role Setting 1:
+                            Extract parameters strictly according to user input, and if the user input is not complete, you should ask the user to complete the information.
+                          ##  Ability Setting 1:
                             If the output contains content in the form of a list or table, use the json format to output, add ```sheet to the beginning of the output ，add ``` to the end of the output.
                           ###  Example :
                              {sheet_json}
@@ -61,15 +62,13 @@ public class PictureVisionAssistant {
                              title description: the description of the table,
                              content description: the content of the table,the first line is the column header, separated by commas, and the second line is the corresponding data
                          
-                          ## Role Setting 2:
+                          ## Ability Setting 2:
                             If the user enters something similar to the following use a list to show the types of subcontractors
                           ###  Example :
                             The user enters: "Address: 425 23rd Ave
                             Location: Surface, four area, 40 sqft in total
                             Job description: Apply 40 sqft stucco, including 2 windows l"
                             Output a Job description of the types of subcontractors required for the material involved.
-                         
-                       
                          """;
 
 
@@ -158,5 +157,6 @@ public class PictureVisionAssistant {
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .call()
                 .content();
+
     }
 }
