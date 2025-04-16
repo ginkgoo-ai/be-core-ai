@@ -47,7 +47,7 @@ public class AssistantController {
 
     @GetMapping("/block")
     String generationBlock(
-            @RequestPart String message,
+            @RequestParam String message,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
 
         return pictureVisionAssistant.chatBlock(chatId, message);
