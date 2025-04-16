@@ -43,13 +43,15 @@ public class PictureVisionAssistant {
             "                                            Developer,29,1,20%,$90k-$100k,Bachelor's,4,Intermediate,Medium`\n" +
             "                                }";
 
+    private final String ERROR_MESSAGE = "System encountered a small problem, please try again later";
+
     final String PROMPT = """	
                          You are a customer chat support agent for "Jasper" California Renovation Master Contractor. Please reply in a friendly, helpful and pleasant manner.
                             You are interacting with customers through an online chat system.
                             You can analyze the content of your client's submission to determine the type of contractor you need through the license classification in the California Contractor State Licensing Board (CSLB).
                             Please speak Chinese.
                             Today's date is {current_date}.
-                         
+                            When the system encounters problems, prompt user {error_message}.
                             Example 1:
                             If the output contains content in the form of a list or table, use the json format to output, add ```sheet to the beginning of the output ，add ``` to the end of the output.
                             Example :
@@ -88,6 +90,7 @@ public class PictureVisionAssistant {
         return this.chatClient.prompt()
                 .system(s -> s.param("current_date", LocalDate.now().toString())
                         .param("sheet_json",SHEET_JSON)
+                        .param("error_message",ERROR_MESSAGE)
                 )
                 .user(userMessageContent)
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
@@ -101,6 +104,8 @@ public class PictureVisionAssistant {
                     .user(userMessageContent)
                     .system(s -> s.param("current_date", LocalDate.now().toString())
                             .param("sheet_json",SHEET_JSON)
+                            .param("error_message",ERROR_MESSAGE)
+
                     )
                     .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                     .stream()
@@ -111,6 +116,8 @@ public class PictureVisionAssistant {
         return this.chatClient.prompt(new Prompt(userMessage))
                 .system(s -> s.param("current_date", LocalDate.now().toString())
                         .param("sheet_json",SHEET_JSON)
+                        .param("error_message",ERROR_MESSAGE)
+
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .stream()
@@ -124,6 +131,8 @@ public class PictureVisionAssistant {
         return this.chatClient.prompt(new Prompt(userMessage))
                 .system(s -> s.param("current_date", LocalDate.now().toString())
                         .param("sheet_json",SHEET_JSON)
+                        .param("error_message",ERROR_MESSAGE)
+
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .call()
@@ -138,6 +147,8 @@ public class PictureVisionAssistant {
                 .user(userMessageContent)
                 .system(s -> s.param("current_date", LocalDate.now().toString())
                         .param("sheet_json",SHEET_JSON)
+                        .param("error_message",ERROR_MESSAGE)
+
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .call()
