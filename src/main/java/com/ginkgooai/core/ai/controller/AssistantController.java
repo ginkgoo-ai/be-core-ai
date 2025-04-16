@@ -2,6 +2,7 @@ package com.ginkgooai.core.ai.controller;
 
 import com.ginkgooai.core.ai.assistant.PictureVisionAssistant;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
@@ -24,7 +25,7 @@ public class AssistantController {
 
     }
 
-    @PostMapping(produces = "text/event-stream; charset=utf-8")
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "text/event-stream; charset=utf-8")
     Flux<String> generationFlux(
             @RequestPart String message,
             @RequestPart(required = false) MultipartFile file,
