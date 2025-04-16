@@ -96,6 +96,16 @@ public class PictureVisionAssistant {
     }
 
     public Flux<String> chat(String chatId, String userMessageContent, MultipartFile file) throws IOException {
+        if (file == null) {
+            return this.chatClient.prompt()
+                    .user(userMessageContent)
+                    .system(s -> s.param("current_date", LocalDate.now().toString())
+                            .param("sheet_json",SHEET_JSON)
+                    )
+                    .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
+                    .stream()
+                    .content();
+        }
         ByteArrayResource byteArrayResource = new ByteArrayResource(file.getBytes());
         UserMessage userMessage = new UserMessage(userMessageContent, new Media(MimeTypeUtils.IMAGE_PNG, byteArrayResource));
         return this.chatClient.prompt(new Prompt(userMessage))
