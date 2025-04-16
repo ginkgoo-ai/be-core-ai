@@ -51,7 +51,7 @@ public class PictureVisionAssistant {
                             Today's date is {current_date}.
                          
                             Example 1:
-                            If the output contains content in the form of a list or table, use the json format to output, add ```list to the beginning of the output ，add ``` to the end of the output.
+                            If the output contains content in the form of a list or table, use the json format to output, add ```sheet to the beginning of the output ，add ``` to the end of the output.
                             Example :
                              {sheet_json}
                              type description: fix type "sheet",
