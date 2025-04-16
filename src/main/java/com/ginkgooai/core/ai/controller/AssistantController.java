@@ -15,7 +15,7 @@ public class AssistantController {
 
     private final PictureVisionAssistant pictureVisionAssistant;
 
-    @PostMapping(produces = "text/event-stream; charset=utf-8")
+    @GetMapping(produces = "text/event-stream; charset=utf-8")
     Flux<String> generationFlux(
             @RequestPart String message,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) {
@@ -34,7 +34,7 @@ public class AssistantController {
 
     }
 
-    @PostMapping("/block")
+    @GetMapping("/block")
     String fileBlock(
             @RequestPart String message,
             @RequestPart(required = false) MultipartFile file,
