@@ -15,9 +15,9 @@ public class AssistantController {
 
     private final PictureVisionAssistant pictureVisionAssistant;
 
-    @GetMapping(produces = "text/event-stream; charset=utf-8")
+    @PostMapping(produces = "text/event-stream; charset=utf-8")
     Flux<String> generationFlux(
-            @RequestParam String message,
+            @RequestPart String message,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) {
 
         return pictureVisionAssistant.chat(chatId, message);
@@ -44,9 +44,9 @@ public class AssistantController {
 
     }
 
-    @GetMapping("/block")
+    @PostMapping("/block")
     String generationBlock(
-            @RequestParam String message,
+            @RequestPart String message,
             @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
 
         return pictureVisionAssistant.chatBlock(chatId, message);
