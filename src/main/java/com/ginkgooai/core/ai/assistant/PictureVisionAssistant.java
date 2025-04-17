@@ -35,31 +35,53 @@ public class PictureVisionAssistant {
 
     private final ChatClient chatClient;
 
-    private final String CARD_JSON = """
-                                          ```card
-                                            [{
-                                              "type": "card",
-                                              "title": "Occupation Analysis",
-                                              "content": {
-                                                "key1": "value1",
-                                                "key2": "value2"
-                                              }
-                                            }]
-                                          ```
-                                          """;
-
     private final String ERROR_MESSAGE = "System encountered a small problem, please try again later";
 
     private final String CONTRACTOR_PROMPT = """
-                            ## Ability Setting 2:
+                         
+                          ## Ability Setting 1:
+                            If the output contains content in the form of a list or table, use the json format to output
                             If the user enters something similar to the following use a card to show the types of subcontractors
                             Output a Job description of the types of subcontractors required for the material involved.
                             Please use mcp tools to get the contractor list.
+                            Output strictly in accordance with the structure, each subcontractor's information requires the structure of [type, title, content]
+                            Strictly mandatory use ```card at the beginning and ```at the end, please check the beginning is start with ```card again
+                            strictly use the following json format to output the content.
+           
+                                     {
+                                              "type": fixed value "card",
+                                              "title": the description of the content info,
+                                              "content": contractor information
+                                    }
+                         
                           ###  Example :
-                            The user enters: "Address: 425 23rd Ave
+                            Input: "Address: 425 23rd Ave
                                               Location: Surface, four area, 40 sqft in total
                                               Job description: Apply 40 sqft stucco, including 2 windows l"
-                          """;
+                            Output:  [{
+                                              "type": fix type "card",
+                                              "title": "Occupation Analysis",
+                                              "content": {
+                                                     "businessName": "SMITH ADRIAN CONSTRUCTION",
+                                                     "licenseNumber": "1028721",
+                                                     "address": "2460 HOWARD AVE",
+                                                     "phoneNumber": "(650) 400 5365",
+                                                     "classification": "B",
+                                                     "expirationDate": "07/31/2025"
+                                                   }
+                                            },{
+                                              "type": fix type "card",
+                                              "title": "Occupation Analysis",
+                                              "content": {
+                                                     "businessName": "SMITH ADRIAN CONSTRUCTION",
+                                                     "licenseNumber": "1028721",
+                                                     "address": "2460 HOWARD AVE",
+                                                     "phoneNumber": "(650) 400 5365",
+                                                     "classification": "B",
+                                                     "expirationDate": "07/31/2025"
+                                                   }]
+                         
+                         """;
 
 
     final String PROMPT = """	
@@ -72,13 +94,6 @@ public class PictureVisionAssistant {
                             When the system encounters problems, prompt user {error_message}.
                             Extract parameters strictly according to user input, and if the user input is not complete, you should ask the user to complete the information.
                             Please use the California Distributor License Classification for the types of licenses involved.
-                          ##  Ability Setting 1:
-                            If the output contains content in the form of a list or table or card, use the json format to output. It always starts with ```card and ends with ```.
-                          ###  Example :
-                             {card_json}
-                             type description: fix type "card",
-                             title description: the description of the card,
-                             content description: json format
                          
                          {contractor_prompt}
                          
@@ -106,7 +121,6 @@ public class PictureVisionAssistant {
 
         return this.chatClient.prompt()
                 .system(s -> s.param("current_date", LocalDate.now().toString())
-                        .param("card_json",CARD_JSON)
                         .param("error_message",ERROR_MESSAGE)
                 )
                 .user(userMessageContent)
@@ -121,7 +135,6 @@ public class PictureVisionAssistant {
                     .user(userMessageContent)
                     .system(s -> {
                                 s.param("current_date", LocalDate.now().toString())
-                                        .param("card_json", CARD_JSON)
                                         .param("error_message", ERROR_MESSAGE);
                                 if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
                                     s.param("contractor_prompt", CONTRACTOR_PROMPT);
@@ -139,14 +152,13 @@ public class PictureVisionAssistant {
         return this.chatClient.prompt(new Prompt(userMessage))
                 .system(s -> {
                             s.param("current_date", LocalDate.now().toString())
-                                            .param("card_json",CARD_JSON)
-                                            .param("error_message",ERROR_MESSAGE);
+                                    .param("error_message",ERROR_MESSAGE);
                             if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
                                 s.param("contractor_prompt", CONTRACTOR_PROMPT);
                             }else {
                                 s.param("contractor_prompt", "");
                             }
-                    }
+                        }
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .stream()
@@ -159,7 +171,6 @@ public class PictureVisionAssistant {
         UserMessage userMessage = new UserMessage(userMessageContent, new Media(MimeTypeUtils.IMAGE_PNG, byteArrayResource));
         return this.chatClient.prompt(new Prompt(userMessage))
                 .system(s -> s.param("current_date", LocalDate.now().toString())
-                        .param("card_json",CARD_JSON)
                         .param("error_message",ERROR_MESSAGE)
 
                 )
@@ -175,16 +186,15 @@ public class PictureVisionAssistant {
                 .prompt()
                 .user(userMessageContent)
                 .system(s -> {
-                        s.param("current_date", LocalDate.now().toString())
-                                        .param("card_json",CARD_JSON)
-                                        .param("error_message",ERROR_MESSAGE);
+                            s.param("current_date", LocalDate.now().toString())
+                                    .param("error_message",ERROR_MESSAGE);
 
-                        if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
-                            s.param("contractor_prompt", CONTRACTOR_PROMPT);
-                        }else {
-                            s.param("contractor_prompt", "");
+                            if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
+                                s.param("contractor_prompt", CONTRACTOR_PROMPT);
+                            }else {
+                                s.param("contractor_prompt", "");
+                            }
                         }
-                    }
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                 .call()
