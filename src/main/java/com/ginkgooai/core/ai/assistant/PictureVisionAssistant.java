@@ -119,10 +119,16 @@ public class PictureVisionAssistant {
         if (file == null) {
             return this.chatClient.prompt()
                     .user(userMessageContent)
-                    .system(s -> s.param("current_date", LocalDate.now().toString())
-                            .param("card_json",CARD_JSON)
-                            .param("error_message",ERROR_MESSAGE)
-
+                    .system(s -> {
+                                s.param("current_date", LocalDate.now().toString())
+                                        .param("card_json", CARD_JSON)
+                                        .param("error_message", ERROR_MESSAGE);
+                                if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
+                                    s.param("contractor_prompt", CONTRACTOR_PROMPT);
+                                } else {
+                                    s.param("contractor_prompt", "");
+                                }
+                            }
                     )
                     .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
                     .stream()
