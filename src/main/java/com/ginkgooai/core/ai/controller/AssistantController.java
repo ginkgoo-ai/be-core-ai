@@ -1,6 +1,7 @@
 package com.ginkgooai.core.ai.controller;
 
 import com.ginkgooai.core.ai.assistant.PictureVisionAssistant;
+import com.ginkgooai.core.ai.dto.QuickCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/assistant")
@@ -29,9 +31,10 @@ public class AssistantController {
     Flux<String> generationFlux(
             @RequestPart String message,
             @RequestPart(required = false) MultipartFile file,
-            @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
+            @RequestParam(required = false, defaultValue = "simple-chat") String chatId,
+            @RequestParam(required = false) List<QuickCommand> types) throws IOException {
 
-        return pictureVisionAssistant.chat(chatId, message,file);
+        return pictureVisionAssistant.chat(chatId, message,file, types);
 
     }
 
@@ -48,9 +51,10 @@ public class AssistantController {
     @GetMapping("/block")
     String generationBlock(
             @RequestParam String message,
-            @RequestParam(required = false, defaultValue = "simple-chat") String chatId) throws IOException {
+            @RequestParam(required = false, defaultValue = "simple-chat") String chatId,
+            @RequestParam(required = false) List<QuickCommand> types) throws IOException {
 
-        return pictureVisionAssistant.chatBlock(chatId, message);
+        return pictureVisionAssistant.chatBlock(chatId, message, types);
 
     }
 }
