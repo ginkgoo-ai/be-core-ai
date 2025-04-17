@@ -32,16 +32,17 @@ public class PictureVisionAssistant {
 
     private final ChatClient chatClient;
 
-    private final String SHEET_JSON = "{\n" +
-            "                                  type: sheet,\n" +
-            "                                  title: Occupation Analysis,\n" +
-            "                                  content: `Occupation,Average Age,Count,Percentage,Salary Range,Education Level,Experience Years,Skill Level,Department Size\n" +
-            "                                            Engineer,32,1,20%,$85k-$95k,Bachelor's,4-5,Intermediate,Medium\n" +
-            "                                            Designer,28,1,20%,$70k-$75k,Master's,3,Intermediate,Small\n" +
-            "                                            Manager,45,1,20%,$120k+,MBA,15,Expert,Large\n" +
-            "                                            Doctor,36,1,20%,$150k+,MD,8,Expert,Medium\n" +
-            "                                            Developer,29,1,20%,$90k-$100k,Bachelor's,4,Intermediate,Medium`\n" +
-            "                                }";
+    private final String SHEET_JSON = """
+                                            {
+                                              "type": "sheet",
+                                              "title": "Occupation Analysis",
+                                              "content": "Occupation,Average Age,Count,Percentage,Salary Range,Education Level,Experience Years,Skill Level,Department Size
+                                                        Engineer,32,1,20%,$85k-$95k,Bachelor's,4-5,Intermediate,Medium
+                                                        Designer,28,1,20%,$70k-$75k,Master's,3,Intermediate,Small
+                                                        Manager,45,1,20%,$120k+,MBA,15,Expert,Large
+                                                        Doctor,36,1,20%,$150k+,MD,8,Expert,Medium
+                                                        Developer,29,1,20%,$90k-$100k,Bachelor's,4,Intermediate,Medium"
+                                            }""";
 
     private final String ERROR_MESSAGE = "System encountered a small problem, please try again later";
 
