@@ -38,13 +38,14 @@ public class PictureVisionAssistant {
     private final String ERROR_MESSAGE = "System encountered a small problem, please try again later";
 
     private final String RESPONSE_FORMAT = """
-    Output strictly in accordance with the structure, each subcontractor's information requires the structure of [type, title, content]
-                            Strictly mandatory use ```card at the beginning and ```at the end, please check the beginning is start with ```card again
+                            Output strictly in accordance with the structure, The information of each contractor requires an independent json structure, including keys [type, title, content] and 
+                             use ```card at the beginning and ```at the end
+                            please check the beginning is start with ```card again
                             strictly use the following json format to output the content.
    
                                      {
                                               "type": fixed value "card",
-                                              "title": the description of the content info,
+                                              "title": contractor`s businessName,
                                               "content": contractor information
                                     }
     
@@ -52,9 +53,11 @@ public class PictureVisionAssistant {
                             Input: "Address: 425 23rd Ave
                                               Location: Surface, four area, 40 sqft in total
                                               Job description: Apply 40 sqft stucco, including 2 windows l"
-                            Output:  [{
+                            Output:
+                            ```card
+                                    [{
                                               "type": fix type "card",
-                                              "title": "Occupation Analysis",
+                                              "title": "businessName",
                                               "content": {
                                                      "businessName": "SMITH ADRIAN CONSTRUCTION",
                                                      "licenseNumber": "1028721",
@@ -63,18 +66,21 @@ public class PictureVisionAssistant {
                                                      "classification": "B",
                                                      "expirationDate": "07/31/2025"
                                                    }
-                                            },{
+                                            }]
+                            ```
+                            ```card
+                            [{
                                               "type": fix type "card",
-                                              "title": "Occupation Analysis",
+                                              "title": "businessName",
                                               "content": {
-                                                     "businessName": "SMITH ADRIAN CONSTRUCTION",
-                                                     "licenseNumber": "1028721",
-                                                     "address": "2460 HOWARD AVE",
-                                                     "phoneNumber": "(650) 400 5365",
-                                                     "classification": "B",
-                                                     "expirationDate": "07/31/2025"
-                                                   }]
-    
+                                                                       "businessName": "CLOSET FACTORY",
+                                                                       "licenseNumber": "931740",
+                                                                       "address": "1000 COMMERCIAL STREET SUITE B, SAN CARLOS, CA 94070",
+                                                                       "phoneNumber": "(650) 595 9999",
+                                                                       "classification": "C-6",
+                                                                       "expirationDate": "04/30/2027"
+                                                                     }]
+                            ```
     
     """;
     private final String CONTRACTOR_PROMPT = """
@@ -97,9 +103,8 @@ public class PictureVisionAssistant {
                             When the system encounters problems, prompt user {error_message}.
                             Please use the California Distributor License Classification for the types of licenses involved.
                          
-                         {contractor_prompt}
-                         
                          {response_format}
+                         {contractor_prompt}
                          """;
 
 
