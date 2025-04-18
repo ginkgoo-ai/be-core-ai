@@ -138,7 +138,8 @@ public class PictureVisionAssistant {
                     .user(userMessageContent)
                     .system(s -> {
                                 s.param("current_date", LocalDate.now().toString())
-                                        .param("error_message", ERROR_MESSAGE);
+                                        .param("error_message", ERROR_MESSAGE)
+                                        .param("response_format", RESPONSE_FORMAT);
                                 if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
                                     s.param("contractor_prompt", CONTRACTOR_PROMPT);
                                 } else {
@@ -155,7 +156,8 @@ public class PictureVisionAssistant {
         return this.chatClient.prompt(new Prompt(userMessage))
                 .system(s -> {
                             s.param("current_date", LocalDate.now().toString())
-                                    .param("error_message",ERROR_MESSAGE);
+                                    .param("error_message",ERROR_MESSAGE)
+                                    .param("response_format", RESPONSE_FORMAT);
                             if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
                                 s.param("contractor_prompt", CONTRACTOR_PROMPT);
                             }else {
