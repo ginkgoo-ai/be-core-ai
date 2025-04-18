@@ -3,7 +3,7 @@ package com.ginkgooai.core.ai.prompt.factory;
 public class ContractorPromptFactory extends PromptFactory {
     private static final String RESPONSE_FORMAT = """
         ## If contains contractors information, Response Format Requirements
-        - Output First analyze the license classifications involved in the user's input statements, and output and display these license classifications.
+        - Output First analyze the license classifications involved in the user's input statements.
         - Output must be in JSON format enclosed in ```card``` markers, please check beginning with ```card again
         - Output must contain:
           * type: "card" (fixed value)
