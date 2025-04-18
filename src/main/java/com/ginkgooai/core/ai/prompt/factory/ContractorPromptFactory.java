@@ -44,7 +44,7 @@ public class ContractorPromptFactory extends PromptFactory {
         """;
 
     private static final String CONTRACTOR_PROMPT = """
-        ## Contractor Matching Instructions:
+        ## Use Mcp tools to get contractor information, Contractor Matching Instructions:
         1. Please analyze strictly in accordance with the user's data and do not make any associations
         2. Analyze the project description to determine required license classifications
         3. If no distance is analyzed, set the default distance is 80467.2 meters
