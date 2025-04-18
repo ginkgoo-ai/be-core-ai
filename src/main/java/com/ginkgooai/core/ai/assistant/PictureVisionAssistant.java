@@ -47,7 +47,7 @@ public class PictureVisionAssistant {
                          - Respond in clear, concise
                          - Use construction industry terminology appropriately
                          - Explain technical terms when needed
-                         
+                         - Call same mcp tool only once, please make sure have prepared parameters.
                          ## Core Responsibilities:
                          1. Analyze project requirements to determine necessary CSLB license classifications
                            - Always output full license classifications in exact format (e.g. "B, C35")
