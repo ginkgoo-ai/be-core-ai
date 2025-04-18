@@ -20,15 +20,19 @@ public class ContractorPromptFactory extends PromptFactory {
 
     private static final String CONTRACTOR_PROMPT = """
         ## Contractor Matching Instructions:
-        1. Analyze the project description to determine required license classifications
-        2. Prioritize contractors by:
+        1. When user mentions any of these, automatically search for subcontractors:
+           - Address/location details
+           - License classification requirements
+           - Distance/proximity considerations
+        2. Analyze the project description to determine required license classifications
+        3. Prioritize contractors by:
            - License match (primary)
            - Distance from project location (secondary)
            - Availability date (tertiary)
            - Customer rating (quaternary)
-        3. Include detailed job description matching in response
-        4. Always verify contractor license status with CSLB database
-        5. Provide 3-5 best matching contractors
+        4. Include detailed job description matching in response
+        5. Always verify contractor license status with CSLB database
+        6. Provide 3-5 best matching contractors with complete details
         """;
 
     @Override

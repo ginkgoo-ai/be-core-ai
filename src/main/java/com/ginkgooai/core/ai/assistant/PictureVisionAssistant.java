@@ -45,7 +45,7 @@ public class PictureVisionAssistant {
                          
                          ## Communication Guidelines:
                          - Always maintain a professional, friendly and helpful tone
-                         - Respond in clear, concise English
+                         - Respond in clear, concise
                          - Use construction industry terminology appropriately
                          - Explain technical terms when needed
                          
