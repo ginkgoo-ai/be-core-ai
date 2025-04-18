@@ -3,6 +3,8 @@ package com.ginkgooai.core.ai.assistant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ginkgooai.core.ai.dto.QuickCommand;
+import com.ginkgooai.core.ai.prompt.factory.PromptFactory;
+import com.ginkgooai.core.ai.prompt.factory.PromptFactoryManager;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -37,55 +39,7 @@ public class PictureVisionAssistant {
 
     private final String ERROR_MESSAGE = "We're experiencing technical difficulties. Please try again later or contact support at support@ginkgoo-support.com";
 
-    private final String RESPONSE_FORMAT = """
-        ## Response Format Requirements
-        - Output must be in JSON format enclosed in ```card``` markers
-        - Output must contain:
-          * type: "card" (fixed value)
-          * content: detailed contractors information
-        - Content must include these mandatory fields:
-          * businessName: Legal business name
-          * licenseNumber: CSLB license number (format: 8 digits)
-          * address: Full business address
-          * city: city
-          * state: state
-          * zip: zip code
-          * phoneNumber: Contact number (format: (XXX) XXX-XXXX)
-          * classification: License classification (e.g. B, C-10)
-        
-        Example Output:
-        ```card
-        {
-            "type": "card",
-            "content": [{
-                "businessName": "SMITH ADRIAN CONSTRUCTION",
-                "licenseNumber": "1028721",
-                "address": "2460 HOWARD AVE, SAN FRANCISCO, CA 94116",
-                "city": "SMITH ADRIAN CONSTRUCTION",
-                "state": "CA",
-                "zip": "94116",
-                "phoneNumber": "(650) 400-5365",
-                "classification": "B"
-            }]
-        }
-        ```
-        """;
-    private final String CONTRACTOR_PROMPT = """
-                         
-                          ## Contractor Matching Instructions:
-                          1. Analyze the project description to determine required license classifications
-                          2. Prioritize contractors by:
-                             - License match (primary)
-                             - Distance from project location (secondary)
-                             - Availability date (tertiary)
-                             - Customer rating (quaternary)
-                          3. Include detailed job description matching in response
-                          4. Always verify contractor license status with CSLB database
-                          5. Provide 3-5 best matching contractors
-                         """;
-
-
-    final String PROMPT = """	
+    private final String PROMPT = """	
                          # Role: Jasper Contractor Support Agent
                          You are the primary customer support agent for Jasper California Renovation Master Contractor.
                          
@@ -115,11 +69,8 @@ public class PictureVisionAssistant {
                          - CSLB license database access: enabled
                          
                          {response_format}
-                         {contractor_prompt}
+                         {business_format}
                          """;
-
-
-
     public PictureVisionAssistant(ChatClient.Builder modelBuilder, SyncMcpToolCallbackProvider syncMcpToolCallbackProvider) {
 
         // @formatter:off
@@ -149,18 +100,15 @@ public class PictureVisionAssistant {
     }
 
     public Flux<String> chat(String chatId, String userMessageContent, MultipartFile file, List<QuickCommand> types) throws IOException {
+        PromptFactory factory = PromptFactoryManager.getFactory(types);
         if (file == null) {
             return this.chatClient.prompt()
                     .user(userMessageContent)
                     .system(s -> {
                                 s.param("current_date", LocalDate.now().toString())
                                         .param("error_message", ERROR_MESSAGE)
-                                        .param("response_format", RESPONSE_FORMAT);
-                                if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
-                                    s.param("contractor_prompt", CONTRACTOR_PROMPT);
-                                } else {
-                                    s.param("contractor_prompt", "");
-                                }
+                                        .param("response_format", factory.getResponseFormat())
+                                        .param("business_format", factory.getBusinessFormat());
                             }
                     )
                     .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
@@ -173,12 +121,8 @@ public class PictureVisionAssistant {
                 .system(s -> {
                             s.param("current_date", LocalDate.now().toString())
                                     .param("error_message",ERROR_MESSAGE)
-                                    .param("response_format", RESPONSE_FORMAT);
-                            if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
-                                s.param("contractor_prompt", CONTRACTOR_PROMPT);
-                            }else {
-                                s.param("contractor_prompt", "");
-                            }
+                                    .param("response_format", factory.getResponseFormat())
+                                    .param("business_format", factory.getBusinessFormat());
                         }
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
@@ -202,6 +146,7 @@ public class PictureVisionAssistant {
 
 
     public String chatBlock(String chatId, String userMessageContent, List<QuickCommand> types) throws JsonProcessingException {
+        PromptFactory factory = PromptFactoryManager.getFactory(types);
 
         return this.chatClient
                 .prompt()
@@ -209,13 +154,9 @@ public class PictureVisionAssistant {
                 .system(s -> {
                             s.param("current_date", LocalDate.now().toString())
                                     .param("error_message",ERROR_MESSAGE)
-                                    .param("response_format", RESPONSE_FORMAT);
+                                    .param("response_format", factory.getResponseFormat())
+                                    .param("business_format", factory.getBusinessFormat());;
 
-                            if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
-                                s.param("contractor_prompt", CONTRACTOR_PROMPT);
-                            }else {
-                                s.param("contractor_prompt", "");
-                            }
                         }
                 )
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId).param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
@@ -223,4 +164,5 @@ public class PictureVisionAssistant {
                 .content();
 
     }
+
 }
