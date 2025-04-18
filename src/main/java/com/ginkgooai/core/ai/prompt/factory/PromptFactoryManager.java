@@ -11,19 +11,20 @@ public class PromptFactoryManager {
         if (command == QuickCommand.CONTRACTORS_INFO) {
             return new ContractorPromptFactory();
         }
-        return new ContractorPromptFactory();
+        return new CommonPromptFactory();
     }
 
 
     public static PromptFactory getFactory(List<QuickCommand> commands) {
 
         if (CollectionUtils.isEmpty(commands)) {
-            return new ContractorPromptFactory();
+            return new CommonPromptFactory();
         }
 
         if (commands.contains(QuickCommand.CONTRACTORS_INFO)) {
             return new ContractorPromptFactory();
         }
-        return new ContractorPromptFactory();
+        // 默认返回ContractorPromptFactory，后续可以扩展其他工厂
+        return new CommonPromptFactory();
     }
 }

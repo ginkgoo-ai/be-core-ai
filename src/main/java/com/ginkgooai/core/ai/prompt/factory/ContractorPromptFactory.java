@@ -2,7 +2,7 @@ package com.ginkgooai.core.ai.prompt.factory;
 
 public class ContractorPromptFactory extends PromptFactory {
     private static final String RESPONSE_FORMAT = """
-        ## Response Format Requirements
+        ## If contains contractors information, Response Format Requirements
         - Output must be in JSON format enclosed in ```card``` markers
         - Output must contain:
           * type: "card" (fixed value)
