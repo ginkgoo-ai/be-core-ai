@@ -37,23 +37,17 @@ public class PictureVisionAssistant {
 
     private final String ERROR_MESSAGE = "System encountered a small problem, please try again later";
 
-    private final String CONTRACTOR_PROMPT = """
-                         
-                          ## Ability Setting 1:
-                            If the output contains content in the form of a list or table, use the json format to output
-                            If the user enters something similar to the following use a card to show the types of subcontractors
-                            Output a Job description of the types of subcontractors required for the material involved.
-                            Please use mcp tools to get the contractor list.
-                            Output strictly in accordance with the structure, each subcontractor's information requires the structure of [type, title, content]
+    private final String RESPONSE_FORMAT = """
+    Output strictly in accordance with the structure, each subcontractor's information requires the structure of [type, title, content]
                             Strictly mandatory use ```card at the beginning and ```at the end, please check the beginning is start with ```card again
                             strictly use the following json format to output the content.
-           
+   
                                      {
                                               "type": fixed value "card",
                                               "title": the description of the content info,
                                               "content": contractor information
                                     }
-                         
+    
                           ###  Example :
                             Input: "Address: 425 23rd Ave
                                               Location: Surface, four area, 40 sqft in total
@@ -80,7 +74,16 @@ public class PictureVisionAssistant {
                                                      "classification": "B",
                                                      "expirationDate": "07/31/2025"
                                                    }]
+    
+    
+    """;
+    private final String CONTRACTOR_PROMPT = """
                          
+                          ## Ability Setting 1:
+                            If the output contains content in the form of a list or table, use the json format to output
+                            If the user enters something similar to the following use a card to show the types of subcontractors
+                            Output a Job description of the types of subcontractors required for the material involved.
+                            Please use mcp tools to get the contractor list.
                          """;
 
 
@@ -92,11 +95,11 @@ public class PictureVisionAssistant {
                             Please speak English first.
                             Today's date is {current_date}.
                             When the system encounters problems, prompt user {error_message}.
-                            Extract parameters strictly according to user input, and if the user input is not complete, you should ask the user to complete the information.
                             Please use the California Distributor License Classification for the types of licenses involved.
                          
                          {contractor_prompt}
                          
+                         {response_format}
                          """;
 
 
@@ -187,7 +190,8 @@ public class PictureVisionAssistant {
                 .user(userMessageContent)
                 .system(s -> {
                             s.param("current_date", LocalDate.now().toString())
-                                    .param("error_message",ERROR_MESSAGE);
+                                    .param("error_message",ERROR_MESSAGE)
+                                    .param("response_format", RESPONSE_FORMAT);
 
                             if (!CollectionUtils.isEmpty(types) && types.contains(QuickCommand.CONTRACTORS_INFO)) {
                                 s.param("contractor_prompt", CONTRACTOR_PROMPT);
