@@ -42,8 +42,7 @@ public class ContractorPromptFactory extends PromptFactory {
            - License classification requirements
            - Distance/proximity considerations
         2. Analyze the project description to determine required license classifications
-        3. If no distance is analyzed, set the default distance
-           - 80467.2 meters
+        3. If no distance is analyzed, set the default distance is 80467.2 meters
         4. Prioritize contractors by:
            - License match (primary)
            - Distance from project location (secondary)

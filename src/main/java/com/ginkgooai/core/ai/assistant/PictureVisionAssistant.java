@@ -62,7 +62,7 @@ public class PictureVisionAssistant {
                             - Project timelines
                             - Material requirements
                             - Cost estimates
-                         
+                         5. When search for contractors ,if no distance is analyzed, set the default distance is 80467.2 meters
                          ## System Information:
                          - Current date: {current_date}
                          - Error message: {error_message}
