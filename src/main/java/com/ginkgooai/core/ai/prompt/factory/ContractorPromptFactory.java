@@ -37,13 +37,13 @@ public class ContractorPromptFactory extends PromptFactory {
 
     private static final String CONTRACTOR_PROMPT = """
         ## Contractor Matching Instructions:
-        1. When user mentions any of these, automatically search for subcontractors:
+        1. Please analyze strictly in accordance with the user's data and do not make any associations, when user mentions any of these, automatically search for subcontractors:
            - Address/location details
            - License classification requirements
            - Distance/proximity considerations
         2. Analyze the project description to determine required license classifications
-        3. Default search radius
-           - 80467.2 miles
+        3. If no distance is analyzed, set the default distance
+           - 80467.2 meters
         4. Prioritize contractors by:
            - License match (primary)
            - Distance from project location (secondary)
