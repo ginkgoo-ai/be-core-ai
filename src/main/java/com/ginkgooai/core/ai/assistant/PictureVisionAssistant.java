@@ -40,10 +40,9 @@ public class PictureVisionAssistant {
     private final String RESPONSE_FORMAT = """
         ## Response Format Requirements
         - Output must be in JSON format enclosed in ```card``` markers
-        - Each contractor card must contain:
+        - Output must contain:
           * type: "card" (fixed value)
-          * title: contractor's business name
-          * content: detailed contractor information
+          * content: detailed contractors information
         - Content must include these mandatory fields:
           * businessName: Legal business name
           * licenseNumber: CSLB license number (format: 8 digits)
@@ -56,10 +55,9 @@ public class PictureVisionAssistant {
         
         Example Output:
         ```card
-        [{
+        {
             "type": "card",
-            "title": "SMITH ADRIAN CONSTRUCTION",
-            "content": {
+            "content": [{
                 "businessName": "SMITH ADRIAN CONSTRUCTION",
                 "licenseNumber": "1028721",
                 "address": "2460 HOWARD AVE, SAN FRANCISCO, CA 94116",
@@ -68,8 +66,8 @@ public class PictureVisionAssistant {
                 "zip": "94116",
                 "phoneNumber": "(650) 400-5365",
                 "classification": "B"
-            }
-        }]
+            }]
+        }
         ```
         """;
     private final String CONTRACTOR_PROMPT = """
