@@ -17,7 +17,6 @@ import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
@@ -51,6 +50,8 @@ public class PictureVisionAssistant {
                          
                          ## Core Responsibilities:
                          1. Analyze project requirements to determine necessary CSLB license classifications
+                           - Always output full license classifications in exact format (e.g. "B, C35")
+                           - Never omit or modify classification codes
                          2. Provide accurate contractor recommendations based on:
                             - License type match
                             - Geographic proximity
@@ -66,7 +67,6 @@ public class PictureVisionAssistant {
                          ## System Information:
                          - Current date: {current_date}
                          - Error message: {error_message}
-                         - CSLB license database access: enabled
                          
                          {response_format}
                          {business_format}

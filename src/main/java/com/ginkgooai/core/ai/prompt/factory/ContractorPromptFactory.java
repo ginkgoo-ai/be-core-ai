@@ -37,7 +37,7 @@ public class ContractorPromptFactory extends PromptFactory {
 
     private static final String CONTRACTOR_PROMPT = """
         ## Contractor Matching Instructions:
-        1. Please analyze strictly in accordance with the user's data and do not make any associations, when user mentions any of these, automatically search for subcontractors:
+        1. Please analyze strictly in accordance with the user's data and do not make any associations, when user mentions these, automatically search for subcontractors:
            - Address/location details
            - License classification requirements
            - Distance/proximity considerations
@@ -49,8 +49,8 @@ public class ContractorPromptFactory extends PromptFactory {
            - Availability date (tertiary)
            - Customer rating (quaternary)
         5. Include detailed job description matching in response
-        6. Always verify contractor license status with CSLB database
-        7. Provide 3-5 best matching contractors with complete details
+        6. Provide 3-5 best matching contractors with complete details
+        
         """;
 
     @Override
