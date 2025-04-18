@@ -4,7 +4,6 @@ public class ContractorPromptFactory extends PromptFactory {
     private static final String RESPONSE_FORMAT = """
         ## If contains contractors information, Response Format Requirements
         - Output First analyze the license classifications involved in the user's input statements, and output and display these license classifications. While displaying, output from which statement of the user the license classifications were analyzed, as well as the reasons and basis
-        - then Use the analyzed classification and original address information to use mcp tool to query the contractor information
         - Output must be in JSON format enclosed in ```card``` markers, please check beginning with ```card again
         - Output must contain:
           * type: "card" (fixed value)
@@ -44,7 +43,7 @@ public class ContractorPromptFactory extends PromptFactory {
         """;
 
     private static final String CONTRACTOR_PROMPT = """
-        ## Use Mcp tools to get contractor information, Contractor Matching Instructions:
+        ## Contractor Matching Instructions:
         1. Please analyze strictly in accordance with the user's data and do not make any associations
         2. Analyze the project description to determine required license classifications
         3. If no distance is analyzed, set the default distance is 80467.2 meters
