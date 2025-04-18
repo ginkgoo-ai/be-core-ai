@@ -42,14 +42,16 @@ public class ContractorPromptFactory extends PromptFactory {
            - License classification requirements
            - Distance/proximity considerations
         2. Analyze the project description to determine required license classifications
-        3. Prioritize contractors by:
+        3. Default search radius
+           - 80467.2 miles
+        4. Prioritize contractors by:
            - License match (primary)
            - Distance from project location (secondary)
            - Availability date (tertiary)
            - Customer rating (quaternary)
-        4. Include detailed job description matching in response
-        5. Always verify contractor license status with CSLB database
-        6. Provide 3-5 best matching contractors with complete details
+        5. Include detailed job description matching in response
+        6. Always verify contractor license status with CSLB database
+        7. Provide 3-5 best matching contractors with complete details
         """;
 
     @Override
