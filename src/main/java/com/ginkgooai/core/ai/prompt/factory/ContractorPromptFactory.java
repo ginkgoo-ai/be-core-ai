@@ -4,7 +4,7 @@ public class ContractorPromptFactory extends PromptFactory {
     private static final String RESPONSE_FORMAT = """
         ## If contains contractors information, Response Format Requirements
         - Output First analyze the license classifications involved in the user's input statements, and output and display these license classifications. While displaying, output from which statement of the user the license classifications were analyzed, as well as the reasons and basis
-        - then Use the analyzed classification and original address information to query the contractor information
+        - then Use the analyzed classification and original address information to use mcp tool to query the contractor information
         - Output must be in JSON format enclosed in ```card``` markers, please check beginning with ```card again
         - Output must contain:
           * type: "card" (fixed value)
