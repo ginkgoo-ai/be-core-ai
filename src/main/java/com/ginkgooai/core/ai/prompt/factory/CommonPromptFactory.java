@@ -8,6 +8,6 @@ public class CommonPromptFactory extends PromptFactory{
 
     @Override
     public String getResponseFormat() {
-        return "If the output contains list items, please separate each item with a newline.";
+        return "If the output contains list items, please use markdown format to output.";
     }
 }
