@@ -48,8 +48,9 @@ public class ContractorPromptFactory extends PromptFactory {
 
         ## Action Steps:
              Step1. Analyze the licenses in the user input
-                Step1.1 Scan for ALL C-Class codes (e.g., C-10, C-35) if found C-Class license classifications immediately invoke step2
-                Step1.2 **Only** zero C-Class matches found, Scan for B-General License
+                Step1.1 Check whether the semantics are included C-Class codes (e.g., C-10, C-35), if found C-Class license classifications immediately invoke step2
+                Step1.2 **Only** no C-Class matches, Check whether the semantics are included B-General License.
+
              Step2. Check whether it is necessary set radius default value
                 If and only if both of the following conditions are met:
                    2.1. The "address" field exists and contains valid information (not empty or placeholder),
