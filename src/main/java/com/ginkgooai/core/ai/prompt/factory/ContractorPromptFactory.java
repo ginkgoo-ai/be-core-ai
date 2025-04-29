@@ -42,23 +42,18 @@ public class ContractorPromptFactory extends PromptFactory {
     private static final String CONTRACTOR_PROMPT = """
         ## Thought Process:
              1. Analyze the user's input to understand their needs
-             2. Identify required CSLB license classifications
-                2.1 Analysis Protocol License Identification
-                   - Phase 1: Scan for ALL C-Class codes (e.g., C-10, C-35)
-                   - Phase 2: B-General License **ONLY** if:
-                     ✓ Zero C-Class matches found
+             2. Identify required CSLB license classifications from the user's input
              3. Repeat the analysis of the classifications involved in the description
-             4. Consider geographic proximity and other matching criteria
-             5. Formulate appropriate response
 
         ## Action Steps:
-             1. Always output full license classifications in exact format
-             2. Provide 3-5 best matching contractors with complete details
-             3. Include detailed job description matching in response
-             4. If and only if both of the following conditions are met:
-               4.1. The "address" field exists and contains valid information (not empty or placeholder),
-               4.2. No valid calculation or analysis has been performed for "radius" (field is empty/undefined/missing),THEN set the default radius value to 80467.2 meters.
+             1. Include detailed job description matching in response
+                1.1 Scan for ALL C-Class codes (e.g., C-10, C-35)
+                1.2 **Only** zero C-Class matches found, Scan for B-General License
         
+             2. If and only if both of the following conditions are met:
+               2.1. The "address" field exists and contains valid information (not empty or placeholder),
+               2.2. No valid calculation or analysis has been performed for "radius" (field is empty/undefined/missing),THEN set the default radius value to 80467.2 meters.
+             3. Provide 3-5 best matching contractors with complete details
         """;
 
     @Override
