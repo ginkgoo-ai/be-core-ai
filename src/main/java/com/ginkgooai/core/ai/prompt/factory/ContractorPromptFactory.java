@@ -55,7 +55,12 @@ public class ContractorPromptFactory extends PromptFactory {
                 If and only if both of the following conditions are met:
                    2.1. The "address" field exists and contains valid information (not empty or placeholder),
                    2.2. No valid calculation or analysis has been performed for "radius" (field is empty/undefined/missing),THEN set the default radius value to 80467.2 meters.
-             Step3. Search contractors and provide 3-5 best matching contractors with complete details
+        
+             Step3. Check parameters
+                Check the classification analyzed  weather includes C-Class codes (e.g., C-10, C-35),
+                if found C-Class license classifications only use C-Class codes (e.g., C-10, C-35) to search
+ 
+             Step4. Search contractors and provide 3-5 best matching contractors with complete details
         
         ## Observation
             1. If contains contractors list information, response Format Requirements
