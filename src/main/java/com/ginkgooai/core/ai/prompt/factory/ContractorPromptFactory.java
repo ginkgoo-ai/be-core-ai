@@ -2,7 +2,7 @@ package com.ginkgooai.core.ai.prompt.factory;
 
 public class ContractorPromptFactory extends PromptFactory {
     private static final String RESPONSE_FORMAT = """
-        ## Response Format Requirements
+        ## Output Format Requirements
           If contains contractors list information, response Format Requirements
             - Output First analyze the license classifications involved in the user's input statements.
             - Output must be in JSON format enclosed in ```card``` markers, please check beginning with ```card again
@@ -59,9 +59,6 @@ public class ContractorPromptFactory extends PromptFactory {
                4.1. The "address" field exists and contains valid information (not empty or placeholder),
                4.2. No valid calculation or analysis has been performed for "radius" (field is empty/undefined/missing),THEN set the default radius value to 80467.2 meters.
         
-        ## Output Requirements:
-        - Use JSON format for contractor information
-        - Include all mandatory fields (businessName, licenseNumber, etc.)
         """;
 
     @Override
