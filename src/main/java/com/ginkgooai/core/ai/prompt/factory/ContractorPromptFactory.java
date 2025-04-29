@@ -47,20 +47,22 @@ public class ContractorPromptFactory extends PromptFactory {
              3. Repeat the analysis of the classifications involved in the description
 
         ## Action Steps:
-             Step1. Analyze the licenses in the user input
-                Step1.1 Check whether the semantics are included C-Class codes (e.g., C-10, C-35), if found C-Class license classifications immediately invoke step2
-                Step1.2 **Only** no C-Class matches, Check whether the semantics are included B-General License.
+             ### Step1: Analyze the licenses in the user input
+                1: Check whether the semantics are included C-Class codes (e.g., C-10, C-35), if found C-Class license classifications immediately invoke step2
+                2: **Only** no C-Class matches, Check whether the semantics are included B-General License.
 
-             Step2. Check whether it is necessary set radius default value
+             ### Step2: Check whether it is necessary set radius default value
                 If and only if both of the following conditions are met:
-                   2.1. The "address" field exists and contains valid information (not empty or placeholder),
+                   1: The "address" field exists and contains valid information (not empty or placeholder),
                    2.2. No valid calculation or analysis has been performed for "radius" (field is empty/undefined/missing),THEN set the default radius value to 80467.2 meters.
         
-             Step3. Check parameters
-                Check the classification analyzed  weather includes C-Class codes (e.g., C-10, C-35),
-                if found C-Class license classifications only use C-Class codes (e.g., C-10, C-35) to search
+             ### Step3: Check parameters
+                1.Check the classification analyzed weather includes C-Class codes (e.g., C-10, C-35),
+                  if found C-Class license classifications only use C-Class codes (e.g., C-10, C-35) to search contractors.
  
-             Step4. Search contractors and provide 3-5 best matching contractors with complete details
+             ### Step4:
+                1.If have C-Class matches, only use C-Class License to search contractors
+                2.provide 3-5 best matching contractors with complete details
         
         ## Observation
             1. If contains contractors list information, response Format Requirements
