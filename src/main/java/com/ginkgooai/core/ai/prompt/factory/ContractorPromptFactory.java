@@ -55,7 +55,7 @@ public class ContractorPromptFactory extends PromptFactory {
                2.2. No valid calculation or analysis has been performed for "radius" (field is empty/undefined/missing),THEN set the default radius value to 80467.2 meters.
              3. Provide 3-5 best matching contractors with complete details
         
-        ## observation
+        ## Observation
             1. If contains contractors list information, response Format Requirements
                 - Output must be in JSON format enclosed in ```card``` markers, please check beginning with ```card again
             2. Scan for ALL C-Class codes (e.g., C-10, C-35)
